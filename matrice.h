@@ -15,6 +15,9 @@ public:
     void print();
     void fill();
     void fill(float);
+    void zeros();
+    void ones();
+    void eye(float *t);
 };
 
 

@@ -61,3 +61,33 @@ void Matrice::fill(float value)
         for(int j=0;j<this->column;j++)
             this->data[i][j] = value;
 }
+void Matrice::eye(float *t)
+{
+    for(int i=0;i<row;i++)
+    {
+        for(int j=0;j<column;j++)
+        {
+            if(i==j)
+                data[i][j] = t[i];
+            else
+                data[i][j] = 0;
+        }
+    }
+
+}
+void Matrice ::ones()
+{
+    for(int i=0;i<row;i++)
+    {
+        for(int j=0;j<column;j++)
+            data[i][j] = 1;
+    }
+}
+void Matrice::zeros()
+{
+    for(int i=0;i<row;i++)
+    {
+        for(int j=0;j<column;j++)
+            data[i][j]=0;
+    }
+}
