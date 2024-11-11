@@ -1,5 +1,6 @@
 #include "matrice.h"
 #include<iostream>
+#include<bits/stdc++.h>
 using namespace std;
 
 
@@ -90,4 +91,100 @@ void Matrice::zeros()
         for(int j=0;j<column;j++)
             data[i][j]=0;
     }
+}
+void Matrice :: replace(int i,int j,float new_element)
+{
+    data[--i][--j] = new_element;
+}
+float Matrice::Min()
+{
+    float min_value = data[0][0];
+    for(int i=1;i<row;i++)
+    {
+        for(int j=1;j<column;j++)
+        {
+            min_value = min(min_value,data[i][j]);
+        }
+    }
+    return min_value;
+}
+
+float Matrice::Max()
+{
+    float max_value = data[0][0];
+    for(int i=1;i<row;i++)
+    {
+        for(int j=1;j<column;j++)
+            max_value = max(max_value,data[i][j]);
+    }
+
+    return max_value;
+}
+
+Matrice Matrice :: ADD(const Matrice &A)
+{
+    if(row!=A.row || column!=A.column)
+    {
+        cout<<"ERROR !!!!!!"<<endl;
+        exit(-1);
+    }
+    Matrice R(row,column);
+    for(int i=0;i<row;i++)
+    {
+        for(int j=0;j<column;j++)
+        {
+            R.data[i][j] = data[i][j] + A.data[i][j];
+        }
+    }
+    return R;
+}
+
+Matrice Matrice :: SOUS(const Matrice &A)
+{
+    if(row!=A.row || column!=A.column)
+    {
+        cout<<"ERROR !!!!!!"<<endl;
+        exit(-1);
+    }
+    Matrice R(row,column);
+    for(int i=0;i<row;i++)
+    {
+        for(int j=0;j<column;j++)
+        {
+            R.data[i][j] = data[i][j] - A.data[i][j];
+        }
+    }
+    return R;
+}
+
+Matrice Matrice :: MULT_BY_SCALAR(float lambda)
+{
+    Matrice R(this->row,this->column);
+    for(int i=0;i<row;i++)
+    {
+        for(int j=0;j<column;j++)
+        {
+            R.data[i][j] = lambda * data[i][j];
+        }
+    }
+    return R;
+}
+
+Matrice Matrice :: Mult(const Matrice &A)
+{
+    if(column!=A.row)
+    {
+        cout<<"ERROR !!!!!!"<<endl;
+        exit(-1);
+    }
+    Matrice R(row,A.column);
+    for(int i=0;i<row;i++)
+    {
+        for(int j=0;j<A.column;j++)
+        {
+            for(int k=0;k<column;k++)
+                R.data[i][j] += data[i][k] * A.data[k][j];
+        }
+    }
+    return R;
 }

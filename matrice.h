@@ -18,6 +18,13 @@ public:
     void zeros();
     void ones();
     void eye(float *t);
+    void replace(int i,int j , float new_element );
+    float Min();
+    float Max();
+    Matrice ADD(const Matrice &);
+    Matrice SOUS(const Matrice &);
+    Matrice Mult(const Matrice &);
+    Matrice MULT_BY_SCALAR(float lambda);
 };
 
 
