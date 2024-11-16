@@ -4,10 +4,21 @@
 #include <stdexcept>
 using namespace std;
 
-
+/**
+ * @brief Construct a new Matrice:: Matrice object
+ * 
+ * @param r 
+ * @param c 
+ */
 Matrice::Matrice(int r,int c)
 {
-    //cout<<"creat"<<endl;
+    /**
+        * @brief Construct a new Matrice:: Matrice object
+        * 
+        * @param r 
+        * @param c 
+    */
+    
     row = r;
     column = c;
     data = new float *[row];
@@ -15,9 +26,14 @@ Matrice::Matrice(int r,int c)
         data[i] = new float[column];
 }
 
+
 Matrice::Matrice(const Matrice &M)
 {
-    //cout<<"copy"<<endl;
+   /**
+        * @brief Construct(Copy) a new Matrice:: Matrice object
+        * 
+        * @param M 
+    */ 
     this->row = M.row;
     this->column = M.column;
     this->data = new float*[this->row];
@@ -32,13 +48,22 @@ Matrice::Matrice(const Matrice &M)
 
 Matrice::~Matrice()
 {
-    //cout<<"delete"<<endl;
+    /**
+     * @brief Destructeur of Matrice
+     * 
+     */
+    
     for(int i=0;i<row;i++)
         delete [] data[i];
     delete [] data;
 }
 void Matrice::print()
 {
+    /**
+     * @brief Print a Matrice values
+     * 
+     * 
+     */
     for(int i=0;i<this->row;i++)
     {
         for(int j=0;j<this->column;j++)
@@ -50,6 +75,11 @@ void Matrice::print()
 }
 void Matrice::fill()
 {
+    /**
+     * @brief Fill a Matrice
+     * 
+     * 
+     */
     for(int i=0;i<this->row;i++)
     {
         for(int j=0;j<this->column;j++)
@@ -59,12 +89,20 @@ void Matrice::fill()
 }
 void Matrice::fill(float value)
 {
+    /**
+     * @brief Fill a Matrice by one values
+     * @param value
+     */
     for(int i=0;i<this->row;i++)
         for(int j=0;j<this->column;j++)
             this->data[i][j] = value;
 }
 void Matrice::eye(float *t)
 {
+    /**
+     * @brief Make matrice diago
+     * @param t 
+     */
     for(int i=0;i<row;i++)
     {
         for(int j=0;j<column;j++)
@@ -79,6 +117,10 @@ void Matrice::eye(float *t)
 }
 void Matrice ::ones()
 {
+    /**
+     * @brief Fill Matrice by Ones
+     * 
+     */
     for(int i=0;i<row;i++)
     {
         for(int j=0;j<column;j++)
@@ -87,6 +129,10 @@ void Matrice ::ones()
 }
 void Matrice::zeros()
 {
+    /**
+     * @brief Fill Matrice by Zeros
+     * 
+     */
     for(int i=0;i<row;i++)
     {
         for(int j=0;j<column;j++)
@@ -95,8 +141,17 @@ void Matrice::zeros()
 }
 void Matrice :: replace(int i,int j,float new_element)
 {
+    /**
+     * @brief Replace a value in Matrice 
+     * @param new_element 
+     */
     data[--i][--j] = new_element;
 }
+/**
+ * @brief Return a Min value in Matrice 
+ * 
+ * @return float 
+ */
 float Matrice::Min()
 {
     float min_value = data[0][0];
@@ -109,7 +164,11 @@ float Matrice::Min()
     }
     return min_value;
 }
-
+/**
+ * @brief Return Max value in Matrice
+ * 
+ * @return float 
+ */
 float Matrice::Max()
 {
     float max_value = data[0][0];
@@ -121,14 +180,17 @@ float Matrice::Max()
 
     return max_value;
 }
-
+/**
+ * @brief ADD method
+ * 
+ * @param A 
+ * @return Matrice 
+ */
 Matrice Matrice :: ADD(const Matrice &A)
 {
-    if(row!=A.row || column!=A.column)
-    {
-        cout<<"ERROR !!!!!!"<<endl;
-        exit(-1);
-    }
+   if (row != A.row || column != A.column) {
+            throw std::logic_error("Addition requires matrices of the same dimensions");
+        }
     Matrice R(row,column);
     for(int i=0;i<row;i++)
     {
@@ -139,14 +201,17 @@ Matrice Matrice :: ADD(const Matrice &A)
     }
     return R;
 }
-
+/**
+ * @brief Subtraction method
+ * 
+ * @param A 
+ * @return Matrice 
+ */
 Matrice Matrice :: SOUS(const Matrice &A)
 {
-    if(row!=A.row || column!=A.column)
-    {
-        cout<<"ERROR !!!!!!"<<endl;
-        exit(-1);
-    }
+    if (row != A.row || column != A.column) {
+            throw std::logic_error("Subtraction requires matrices of the same dimensions");
+        }
     Matrice R(row,column);
     for(int i=0;i<row;i++)
     {
@@ -157,7 +222,12 @@ Matrice Matrice :: SOUS(const Matrice &A)
     }
     return R;
 }
-
+/**
+ * @brief Multiple Matrice by a value
+ * 
+ * @param lambda 
+ * @return Matrice 
+ */
 Matrice Matrice :: MULT_BY_SCALAR(float lambda)
 {
     Matrice R(this->row,this->column);
@@ -170,14 +240,18 @@ Matrice Matrice :: MULT_BY_SCALAR(float lambda)
     }
     return R;
 }
-
+/**
+ * @brief Multiplication method
+ * 
+ * @param A 
+ * @return Matrice 
+ */
 Matrice Matrice :: Mult(const Matrice &A)
 {
-    if(column!=A.row)
-    {
-        cout<<"ERROR !!!!!!"<<endl;
-        exit(-1);
-    }
+    if (column != A.row) {
+            throw std::logic_error("Multiplication requires column of first matrix to match row of second matrix");
+        }
+
     Matrice R(row,A.column);
     for(int i=0;i<row;i++)
     {
@@ -189,14 +263,17 @@ Matrice Matrice :: Mult(const Matrice &A)
     }
     return R;
 }
-
+/**
+ * @brief + operator
+ * 
+ * @param A 
+ * @return Matrice 
+ */
 Matrice Matrice ::operator+(const Matrice &A)
 {
-    if(row!=A.row || column!=A.column)
-    {
-        cout<<"ERROR !!!!!!"<<endl;
-        exit(-1);
-    }
+    if (row != A.row || column != A.column) {
+            throw std::logic_error("Addition requires matrices of the same dimensions");
+        }
     Matrice C(row,column);
 
     for(int i=0;i<row;i++)
@@ -208,14 +285,17 @@ Matrice Matrice ::operator+(const Matrice &A)
     return C;
 
 }
-
+/**
+ * @brief - operator
+ * 
+ * @param A 
+ * @return Matrice 
+ */
 Matrice Matrice ::operator-(const Matrice &A)
 {
-    if(row!=A.row || column!=A.column)
-    {
-        cout<<"ERROR !!!!!!"<<endl;
-        exit(-1);
-    }
+     if (row != A.row || column != A.column) {
+            throw std::logic_error("Subtraction requires matrices of the same dimensions");
+        }
     Matrice C(row,column);
 
     for(int i=0;i<row;i++)
@@ -227,13 +307,18 @@ Matrice Matrice ::operator-(const Matrice &A)
     return C;
 
 }
+/**
+ * @brief * operator
+ * 
+ * @param A 
+ * @return Matrice 
+ */
 Matrice Matrice ::operator*(const Matrice &A)
 {
-    if(column!=A.row)
-    {
-        cout<<"ERROR !!!!!!"<<endl;
-        exit(-1);
-    }
+     if (column != A.row) {
+            throw std::logic_error("Multiplication requires column of first matrix to match row of second matrix");
+        }
+
     Matrice C(row,A.column);
     for(int i=0;i<row;i++)
     {
@@ -246,7 +331,13 @@ Matrice Matrice ::operator*(const Matrice &A)
     return C;
 
 }
-
+/**
+ * @brief Compare operator
+ * 
+ * @param A 
+ * @return true 
+ * @return false 
+ */
 bool Matrice::operator==(const Matrice &A)
 {
     for(int i=0;i<row;i++)
@@ -257,13 +348,24 @@ bool Matrice::operator==(const Matrice &A)
         }
     return 1;    
 }
-
+/**
+ * @brief 
+ * 
+ * @param A 
+ * @return true 
+ * @return false 
+ */
 bool Matrice::operator!=(const Matrice &A)
 {
     return (!(*this==A));
 }
 
-
+/**
+ * @brief 
+ * 
+ * @param A 
+ * @return Matrice& 
+ */
 Matrice& Matrice::operator=(const Matrice &A)
 {
     if(*this ==A)
@@ -290,7 +392,11 @@ Matrice& Matrice::operator=(const Matrice &A)
     return *this;
 
 }
-
+/**
+ * @brief Trace method
+ * 
+ * @return float 
+ */
 float Matrice::trace()
 {
      if (row != column) 
