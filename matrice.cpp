@@ -1,12 +1,13 @@
 #include "matrice.h"
 #include<iostream>
 #include<bits/stdc++.h>
+#include <stdexcept>
 using namespace std;
 
 
 Matrice::Matrice(int r,int c)
 {
-    cout<<"creat"<<endl;
+    //cout<<"creat"<<endl;
     row = r;
     column = c;
     data = new float *[row];
@@ -16,7 +17,7 @@ Matrice::Matrice(int r,int c)
 
 Matrice::Matrice(const Matrice &M)
 {
-    cout<<"copy"<<endl;
+    //cout<<"copy"<<endl;
     this->row = M.row;
     this->column = M.column;
     this->data = new float*[this->row];
@@ -31,7 +32,7 @@ Matrice::Matrice(const Matrice &M)
 
 Matrice::~Matrice()
 {
-    cout<<"delete"<<endl;
+    //cout<<"delete"<<endl;
     for(int i=0;i<row;i++)
         delete [] data[i];
     delete [] data;
@@ -188,3 +189,120 @@ Matrice Matrice :: Mult(const Matrice &A)
     }
     return R;
 }
+
+Matrice Matrice ::operator+(const Matrice &A)
+{
+    if(row!=A.row || column!=A.column)
+    {
+        cout<<"ERROR !!!!!!"<<endl;
+        exit(-1);
+    }
+    Matrice C(row,column);
+
+    for(int i=0;i<row;i++)
+    {
+        for(int j=0;j<column;j++)
+            C.data[i][j] = data[i][j] + A.data[i][j];
+    }
+
+    return C;
+
+}
+
+Matrice Matrice ::operator-(const Matrice &A)
+{
+    if(row!=A.row || column!=A.column)
+    {
+        cout<<"ERROR !!!!!!"<<endl;
+        exit(-1);
+    }
+    Matrice C(row,column);
+
+    for(int i=0;i<row;i++)
+    {
+        for(int j=0;j<column;j++)
+            C.data[i][j] = data[i][j] - A.data[i][j];
+    }
+
+    return C;
+
+}
+Matrice Matrice ::operator*(const Matrice &A)
+{
+    if(column!=A.row)
+    {
+        cout<<"ERROR !!!!!!"<<endl;
+        exit(-1);
+    }
+    Matrice C(row,A.column);
+    for(int i=0;i<row;i++)
+    {
+        for(int j=0;j<A.column;j++)
+        {
+            for(int k=0;k<column;k++)
+                C.data[i][j] += data[i][k] * A.data[k][j];
+        }
+    }
+    return C;
+
+}
+
+bool Matrice::operator==(const Matrice &A)
+{
+    for(int i=0;i<row;i++)
+        for(int j=0;j<column;j++)
+        {
+            if(data[i][j]!=A.data[i][j])
+                return 0;
+        }
+    return 1;    
+}
+
+bool Matrice::operator!=(const Matrice &A)
+{
+    return (!(*this==A));
+}
+
+
+Matrice& Matrice::operator=(const Matrice &A)
+{
+    if(*this ==A)
+    {
+        return *this;
+    }
+    for(int i=0;i<row;i++)
+        delete [] data[i];
+    delete [] data;
+
+    row = A.row;
+    column = A.column;
+
+    data = new float *[row];
+    for(int i=0;i<row;i++ )
+        data[i] = new float[column];
+    
+    for(int i=0;i<row;i++)
+    {
+        for(int j=0;j<column;j++)
+            data[i][j] = A.data[i][j];
+    }
+
+    return *this;
+
+}
+
+float Matrice::trace()
+{
+     if (row != column) 
+        {
+            throw std::logic_error("Trace can only be calculated for square matrices");
+        }
+    float sum=0;
+    for(int i=0;i<row;i++)
+        sum+=data[i][i];
+    return sum;
+}
+
+
+
+

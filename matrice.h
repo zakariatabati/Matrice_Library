@@ -25,6 +25,14 @@ public:
     Matrice SOUS(const Matrice &);
     Matrice Mult(const Matrice &);
     Matrice MULT_BY_SCALAR(float lambda);
+    Matrice operator+(const Matrice &);
+    Matrice operator-(const Matrice &);
+    Matrice operator*(const Matrice &);
+    bool operator==(const Matrice &);
+    bool operator!=(const Matrice &);
+    Matrice& operator=(const Matrice &);
+    float trace();
+
 };
 
 
